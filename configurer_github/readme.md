@@ -45,10 +45,10 @@ Github pages va utiliser vos pages web qui sont dans votre reposity **aw3ir** et
 
 
  - Descendre dans la page vers la section Github Pages
- - Selectionnez “master branch” 
+ - Selectionnez main branch” 
  - et cliquez sur le bouton “Save”
 
-<img src="pages.ok.jpg" alt="pages created" width="100%"/>
+<img src="pages.ok.png" alt="pages created" width="100%"/>
 
  - Github vous aura créer un site web Github pages va utiliser vos pages web qui sont dans votre reposity **aw3ir** et les rendre accéssible sur une URL : **https://[votre_pseudo_git].github.io/aw3ir**
 
@@ -59,7 +59,7 @@ Github pages va utiliser vos pages web qui sont dans votre reposity **aw3ir** et
 
 https://votre_pseudo.github.io/aw3ir
 
-<img src="update_about.jpg" alt="update_about" width="100%"/>
+<img src="update_about.png" alt="update_about" width="100%"/>
 
 
 # Upload de vos codes sources vers Github
