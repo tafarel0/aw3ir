@@ -18,4 +18,4 @@
 
 # Enoncé des TP
 
-Les énoncés sont dans un autre dépot git : https://github.com/bilelz/tpaw3ir
+Les énoncés sont dans un autre dépot git : https://github.com/bilelz/aw3ir.readme
