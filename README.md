@@ -1,4 +1,3 @@
-Lien pour rejoindre le forum SLACK : https://join.slack.com/t/master3ir/shared_invite/zt-2sbf8uzgg-j1gffR_HTpnRB4WfNXJIzw
 
 
 
