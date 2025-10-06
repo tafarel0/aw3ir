@@ -1,0 +1,96 @@
+
+body{
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 35px;
+    background-color: #fafa;
+    color: #333;
+}
+.Corps{
+
+    background-color: white;
+    padding: 20px 30px;
+    max-width: 800px;
+    margin: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0,10);
+}
+
+h1{
+
+    text-align: center;
+    color: #222;
+    font-size: 30px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+h2{
+
+    /*border-bottom: 2px solid #555 ;*/
+    color: #444;
+    padding-top: 5px;
+    margin-top: 20px;
+}
+/*.header, .section{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.header div,section{
+    
+    width: 40%;
+}*/
+
+.header-table {
+  width: 100%;
+  border: 1px solid #444;
+  border-collapse: separate; /* On garde la séparation des cellules */
+  border-spacing: 2px;
+  border: 3px double #333;
+  margin: auto;
+  margin-bottom: 35px;
+}
+
+.header-table td {
+  border: 1px solid #444;
+  padding: 8px 12px;
+  vertical-align: middle;
+}
+
+.header-table tr:last-child td {
+  text-align: left;
+}
+
+.header-table .right {
+  text-align: right;
+}
+a{
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;  /* les bordures restent séparées */
+  border-spacing: 2px;        /* espace entre les cellules */
+  border: 3px double #333; 
+  margin-top: 10px;
+}
+
+.table th, .table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  vertical-align: top;
+}
+.footer {
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 30px;
+  color: #777;
+}
