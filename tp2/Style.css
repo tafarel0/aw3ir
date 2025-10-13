@@ -1,0 +1,91 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e9ecef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+h1 {
+  color: #222;
+  margin-bottom: 20px;
+}
+
+form {
+  overflow: hidden;  
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 1px -1px #0003,
+              0 1px 1px #00000024,
+              0 1px 3px #0000001f;
+}
+
+label {
+  width: 150px;
+  display: inline-block;
+}
+
+input {
+  width: 250px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+
+form:invalid input[type="submit"] {
+  background-color: gray;
+}
+
+
+input:invalid {
+  border-color: red;
+}
+
+
+input:invalid + .icon-ok {
+  display: none;
+}
+
+
+input:valid {
+  border-color: green;
+}
+
+
+input:valid + .icon-ok {
+  display: inline-block;
+  color: green;
+  margin-left: 5px;
+}
+
+
+.btn-primary {
+  width: 250px;  
+  display: block;
+  border-radius: 5px;
+  padding: 6px 12px;
+  background-color: #0d6efd;
+  border: 1px solid #0d6efd;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  /* float: right; */
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+.button-container {
+  display: flex;
+  justify-content: flex-end; 
+  position: static;          
+  bottom: 0;                 
+  background: white;
+  padding-top: 10px;
+}
+

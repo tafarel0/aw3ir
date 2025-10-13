@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
   <meta charset="utf-8" />
@@ -7,11 +7,12 @@
   <title>TP2</title>
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="Style.css" />
 
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <!-- Place favicon.ico in the root directory -->
 
-  <style>
+  <!-- <style>
     body {
       background-color: #e9ebee;
       font-family: system, -apple-system, ".SFNSText-Regular", "San Francisco",
@@ -20,7 +21,7 @@
       margin: 0 auto;
       max-width: 800px;
     }
-  </style>
+  </style> -->
 
   <!-- Code à dé-commenter si besoin de fichier CSS ou JS -->
   <!--<link rel="stylesheet" href="style.css">-->
@@ -28,13 +29,45 @@
 </head>
 
 <body>
-  <nav>
+  <!-- <nav>
     <a href="..">🏠 Index</a> / TP2
-  </nav>
-  <h1>tp2</h1>
+  </nav> -->
+  <h1></h1>
   <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
   <img src="../galilee.png" alt="Logo Galilee" />
+  <p>Master 3IR TP AW #2 : HTML & Javascript</p>
+  <p>Validation de formulaire et lecture de données en JavaScript</p>
+
+  <form action="action.html" method="get" >
+    <p>
+    <label for="name">Nom</label>
+    <input type="text" id="name" name="name" minlength="2" maxlength="20" required>
+    <span class="icon-ok">✔</span>
+    </p> 
+    <p>
+      <label for="firstname">Prénom</label>
+      <input type="text" name="firstname" minlength="2" maxlength="20" required />
+      <span class="icon-ok">✔</span>
+    </p>
+    <p>
+      <label for="birthday">Date de naissance</label>
+      <input type="date" id="birthday" name="birthday" required>
+      <span class="icon-ok">✔</span>
+    </p>
+    <p>
+    <label for="address">Adresse</label>
+    <input type="text" id="address" name="address" minlength="5" maxlength="50" required>
+    <span class="icon-ok">✔</span>
+    </p>
+    <p>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" minlength="5" maxlength="30" required>
+      <span class="icon-ok">✔</span>
+    </p>
+    <p  class="button-container">
+     <button type="submit" class="btn-primary">Envoyer</button>
+    </p>
+  </form>
 </body>
 
 </html>
