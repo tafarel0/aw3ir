@@ -37,13 +37,32 @@ window.onload = function () {
     }
 
     // Si tout est OK
-    modalTitle.textContent = "Formulaire validé 🎉";
+    // modalTitle.textContent = "Formulaire validé 🎉";
+    // modalBody.innerHTML = `
+    //   <p>Toutes les informations sont correctes.</p>
+    //   <a href="http://maps.google.com/maps?q=Paris" target="_blank">
+    //     <img src="https://maps.googleapis.com/maps/api/staticmap?markers=Paris&zoom=14&size=400x300&scale=2&key=AIzaSyAkmvI9DazzG9p77IShsz_Di7-5Qn7zkcg" 
+    //     alt="Google Maps Paris" class="img-fluid rounded">
+    //   </a>
+
+    modalTitle.textContent = `Bienvenue ${prenom} ${nom} 🎉`;
+
+    // Encodage de l'adresse pour Google Maps
+    const adresseEncodée = encodeURIComponent(adresse);
+    const mapURL = `https://maps.googleapis.com/maps/api/staticmap?center=${adresseEncodée}&markers=${adresseEncodée}&zoom=14&size=400x300&scale=2&key=AIzaSyAkmvI9DazzG9p77IShsz_Di7-5Qn7zkcg`;
+
     modalBody.innerHTML = `
-      <p>Toutes les informations sont correctes.</p>
-      <a href="http://maps.google.com/maps?q=Paris" target="_blank">
-        <img src="https://maps.googleapis.com/maps/api/staticmap?markers=Paris&zoom=14&size=400x300&scale=2&key=AIzaSyAkmvI9DazzG9p77IShsz_Di7-5Qn7zkcg" 
-        alt="Google Maps Paris" class="img-fluid rounded">
+      <p><strong>Bonjour ${prenom} ${nom}</strong>,</p>
+      <p>Vous êtes né(e) le <strong>${birthday}</strong>.</p>
+      <p>Votre adresse est : <strong>${adresse}</strong>.</p>
+      <p>Adresse email : <strong>${email}</strong></p>
+      <hr>
+      <p>Voici la localisation de votre adresse sur Google Maps :</p>
+      <a href="http://maps.google.com/maps?q=${adresseEncodée}" target="_blank">
+        <img src="${mapURL}" alt="Google Maps - ${adresse}" class="img-fluid rounded shadow">
       </a>
+
+      
     `;
     modal.show();
   });
