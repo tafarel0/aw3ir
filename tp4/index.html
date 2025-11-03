@@ -9,9 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+     <link rel="stylesheet" href="css/bootstrap.css">
     <!-- Place favicon.ico in the root directory -->
 
-    <style>
+    <!-- <style>
         body {
             background-color: #e9ebee;
             font-family: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
@@ -19,21 +20,104 @@
             margin: 0 auto;
             max-width: 800px;
         }
-    </style>
+    </style> -->
 
     <!-- Code à dé-commenter si besoin de fichier CSS ou JS -->
     <!--<link rel="stylesheet" href="style.css">-->
     <!--<script src="main.js"></script>-->
 </head>
 
-<body>
+<!-- <body>
     <nav>
         <a href="..">🏠 Index</a> / TP4
     </nav>
     <h1>TP4</h1>
-    <!-- Add your site or application content here -->
+    < Add your site or application content here >
     <p>Hello world! This is HTML5 Boilerplate.</p>
     <img src="../galilee.png" alt="Logo Galilee" />
+</body> -->
+
+<body class="bg-light">
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Formulaire de Contact avec HTML5 et Géolocalisation</h2>
+
+    <form id="contactForm" class="p-4 border rounded bg-white shadow-sm">
+      <!-- Nom -->
+      <div class="mb-3 row align-items-center">
+        <label for="name" class="col-sm-2 col-form-label">Nom</label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="text" class="form-control" id="name" required minlength="5" onkeyup="calcNbChar(this.id)">
+          <span class="ms-2 text-secondary"></span>
+        </div>
+      </div>
+
+      <!-- Prénom -->
+      <div class="mb-3 row align-items-center">
+        <label for="firstname" class="col-sm-2 col-form-label">Prénom</label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="text" class="form-control" id="firstname" required minlength="5" onkeyup="calcNbChar(this.id)">
+          <span class="ms-2 text-secondary"></span>
+        </div>
+      </div>
+
+      <!-- Date de naissance -->
+      <div class="mb-3 row align-items-center">
+        <label for="birthdate" class="col-sm-2 col-form-label">Date de naissance</label>
+        <div class="col-sm-10">
+          <input type="date" class="form-control" id="birthdate" required>
+        </div>
+      </div>
+
+      <!-- Adresse -->
+      <div class="mb-3 row align-items-center">
+        <label for="address" class="col-sm-2 col-form-label">Adresse</label>
+        <div class="col-sm-8 d-flex align-items-center">
+          <input type="text" class="form-control" id="address" required minlength="5" onkeyup="calcNbChar(this.id)">
+          <span class="ms-2 text-secondary"></span>
+        </div>
+        <div class="col-sm-2 text-end">
+          <button type="button" class="btn btn-outline-primary" id="btnGPS">📍 GPS</button>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3 row align-items-center">
+        <label for="email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10 d-flex align-items-center">
+          <input type="email" class="form-control" id="email" required>
+        </div>
+      </div>
+
+      <!-- Carte -->
+      <div id="map" class="text-center my-3"></div>
+
+      <!-- Boutons -->
+      <div class="text-center">
+        <button type="submit" class="btn btn-success me-2">Ajouter</button>
+        <button type="button" class="btn btn-danger" id="btnReset">Supprimer tout</button>
+      </div>
+    </form>
+
+    <!-- Tableau des contacts -->
+    <h3 class="mt-5">Liste des contacts</h3>
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Date</th>
+          <th>Adresse</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="js/bootstrap.bundle.js"></script>
+  <script src="js/gps.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/form-validation.js"></script>
 </body>
 
 </html>

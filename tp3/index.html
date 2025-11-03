@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
 
-    <style>
+    <!-- <style>
         body {
             background-color: #e9ebee;
             font-family: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
@@ -19,7 +19,7 @@
             margin: 0 auto;
             max-width: 800px;
         }
-    </style>
+    </style> -->
 
     <!-- Code à dé-commenter si besoin de fichier CSS ou JS -->
     <!--<link rel="stylesheet" href="style.css">-->
@@ -27,13 +27,117 @@
 </head>
 
 <body>
-    <nav>
+    <!-- <nav>
         <a href="..">🏠 Index</a> / TP3
     </nav>
-    <h1>tp3</h1>
-    <!-- Add your site or application content here -->
-    <p>Hello world! This is HTML5 Boilerplate.</p>
-    <img src="../galilee.png" alt="Logo Galilee" />
+    <h1>tp3</h1> -->
+    
+    <div >
+    <img  src="../galilee.png" alt="Logo Galilee"  style=" width: 150px; height: 100px; margin-top: 10px;" class="mx-auto d-block">
+    </div>
+    <div style=" text-align: center;">
+    <h3>Institut galilee.</h3>
+    <h4>Université Sorbonne Paris Nord</h4>
+    </div>
 </body>
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TP AW - Formulaire Bootstrap 5</title>
+
+    <!-- CSS Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
+
+    <!-- JS Bootstrap -->
+    <script src="js/bootstrap.bundle.js"></script>
+
+    <!-- JS Validation -->
+    <script src="js/form-validation.js" defer></script>
+  </head>
+
+  <body class="bg-light">
+    <div class="container py-5">
+      <h1 class="mb-3">TP AW</h1>
+      <p>Avec Bootstrap 5</p>
+
+      <form id="myForm" class="needs-validation" style="max-width: 600px;">
+        <div class="mb-3 row">
+          <label for="nom" class="col-sm-2 col-form-label">Nom</label>
+          <div class="col-sm-10">
+            <input type="text" id="nom" class="form-control" required />
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="prenom" class="col-sm-2 col-form-label">Prénom</label>
+          <div class="col-sm-10">
+            <input type="text" id="prenom" class="form-control" required />
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="birthday" class="col-sm-2 col-form-label">Date de naissance</label>
+          <div class="col-sm-10">
+            <input type="date" id="birthday" class="form-control" required />
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="adresse" class="col-sm-2 col-form-label">Adresse</label>
+          <div class="col-sm-10">
+            <input type="text" id="adresse" class="form-control" required />
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="email" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" id="email" class="form-control" required />
+          </div>
+        </div class="mb-3 row">
+        <div style="margin-left: 100px;">
+        <button type="submit" id="submit" class="btn btn-primary">Valider</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="myModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Résultat</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
 
 </html>
