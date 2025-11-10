@@ -1,41 +1,26 @@
 <!doctype html>
-<html>
+<html lang="fr">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>TP4</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>TP4 - Formulaire avec géolocalisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-     <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Place favicon.ico in the root directory -->
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- <style>
-        body {
-            background-color: #e9ebee;
-            font-family: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
-            font-size: 16px;
-            margin: 0 auto;
-            max-width: 800px;
-        }
-    </style> -->
-
-    <!-- Code à dé-commenter si besoin de fichier CSS ou JS -->
-    <!--<link rel="stylesheet" href="style.css">-->
-    <!--<script src="main.js"></script>-->
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+      border-radius: 10px;
+      display: none;
+      /* cachée au départ */
+    }
+  </style>
 </head>
-
-<!-- <body>
-    <nav>
-        <a href="..">🏠 Index</a> / TP4
-    </nav>
-    <h1>TP4</h1>
-    < Add your site or application content here >
-    <p>Hello world! This is HTML5 Boilerplate.</p>
-    <img src="../galilee.png" alt="Logo Galilee" />
-</body> -->
 
 <body class="bg-light">
   <div class="container mt-5">
@@ -46,8 +31,7 @@
       <div class="mb-3 row align-items-center">
         <label for="name" class="col-sm-2 col-form-label">Nom</label>
         <div class="col-sm-10 d-flex align-items-center">
-          <input type="text" class="form-control" id="name" required minlength="5" onkeyup="calcNbChar(this.id)">
-          <span class="ms-2 text-secondary"></span>
+          <input type="text" class="form-control" id="name" required minlength="2">
         </div>
       </div>
 
@@ -55,8 +39,7 @@
       <div class="mb-3 row align-items-center">
         <label for="firstname" class="col-sm-2 col-form-label">Prénom</label>
         <div class="col-sm-10 d-flex align-items-center">
-          <input type="text" class="form-control" id="firstname" required minlength="5" onkeyup="calcNbChar(this.id)">
-          <span class="ms-2 text-secondary"></span>
+          <input type="text" class="form-control" id="firstname" required minlength="2">
         </div>
       </div>
 
@@ -68,12 +51,11 @@
         </div>
       </div>
 
-      <!-- Adresse -->
+      <!-- Adresse + GPS -->
       <div class="mb-3 row align-items-center">
         <label for="address" class="col-sm-2 col-form-label">Adresse</label>
-        <div class="col-sm-8 d-flex align-items-center">
-          <input type="text" class="form-control" id="address" required minlength="5" onkeyup="calcNbChar(this.id)">
-          <span class="ms-2 text-secondary"></span>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="address" required minlength="5">
         </div>
         <div class="col-sm-2 text-end">
           <button type="button" class="btn btn-outline-primary" id="btnGPS">📍 GPS</button>
