@@ -12,18 +12,22 @@ function getLocation() {
     alert("La géolocalisation n'est pas supportée par ce navigateur.");
   }
 }
+let map; // variable globale pour stocker la carte
 
 function showPosition(position) {
   const lat = position.coords.latitude;
   const lon = position.coords.longitude;
 
-  // Afficher la carte
   const mapDiv = document.getElementById("map");
   mapDiv.style.display = "block";
-  mapDiv.innerHTML = ""; // réinitialiser avant d'afficher une nouvelle carte
+
+  // Si la carte existe déjà, la supprimer
+  if (map) {
+    map.remove();
+  }
 
   // Initialiser la carte Leaflet
-  const map = L.map("map").setView([lat, lon], 15);
+  map = L.map("map").setView([lat, lon], 15);
 
   // Ajouter la couche OpenStreetMap
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -36,7 +40,7 @@ function showPosition(position) {
   const marker = L.marker([lat, lon]).addTo(map);
   marker.bindPopup("<b>Vous êtes ici</b>").openPopup();
 
-  // 🔍 Optionnel : obtenir l’adresse à partir des coordonnées (reverse geocoding)
+  // Reverse geocoding
   fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
     .then((response) => response.json())
     .then((data) => {
@@ -46,6 +50,7 @@ function showPosition(position) {
     })
     .catch((error) => console.error("Erreur reverse geocoding :", error));
 }
+
 
 function showError(error) {
   let msg = "";
