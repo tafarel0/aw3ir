@@ -51,7 +51,6 @@ function showPosition(position) {
     .catch((error) => console.error("Erreur reverse geocoding :", error));
 }
 
-
 function showError(error) {
   let msg = "";
   switch (error.code) {
