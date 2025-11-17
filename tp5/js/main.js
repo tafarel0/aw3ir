@@ -90,7 +90,8 @@ const app = Vue.createApp({
         },
 
         // 📌 Géolocalisation de l'utilisateur
-        getUserPosition() {
+       
+    getUserPosition() {
     if (!navigator.geolocation) {
         this.error = "La géolocalisation n'est pas supportée par votre navigateur.";
         return;

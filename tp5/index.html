@@ -1,83 +1,87 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Application Météo</title>
+    <meta charset="UTF-8" />
+    <title>WebApp Météo avec Vuejs</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef3f7;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        #app {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
+        .weather-card {
             border-radius: 10px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-        }
-
-        input, button {
-            padding: 10px;
-            margin: 5px 0;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        #weather {
-            margin-top: 20px;
+            background: #fff;
             padding: 15px;
-            background: #f5faff;
-            border-radius: 10px;
-        }
-
-        #weather img {
-            width: 100px;
-        }
-
-        #history {
             margin-top: 20px;
-            padding: 15px;
-            background: #fff8e5;
-            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        ul {
-            padding-left: 20px;
+        .icon-weather {
+            width: 70px;
         }
     </style>
 </head>
-<body>
+<body class="bg-light">
 
-<div id="app">
-    <h1>🌤️ Météo</h1>
-
-    <!-- Barre de recherche -->
-    <input type="text" id="cityInput" placeholder="Entrez une ville...">
-    <button onclick="searchWeather()">Rechercher</button>
-    <button onclick="getLocation()">📍 Ma position</button>
-
-    <!-- Historique -->
-    <div id="history">
-        <h3 id="historyTitle">Liste des villes (0)</h3>
-        <ul id="historyList"></ul>
+     <div >
+    <img  src="../galilee.png" alt="Logo Galilee"  style=" width: 150px; height: 100px; margin-top: 10px;" class="mx-auto d-block">
+    </div>
+    <div style=" text-align: center;">
+    <h3>Institut galilee.</h3>
+    <h4>Université Sorbonne Paris Nord</h4>
+    <h6>M2 3ir TP5</h6>
     </div>
 
-    <!-- Résultat météo -->
-    <div id="weather"></div>
+<div id="app" class="container py-4">
+
+
+    <div class="input-group mb-2">
+        <input type="text" v-model="city" class="form-control" placeholder="Entrez une ville...">
+        <button class="btn btn-primary" @click="addCity">Go!</button>
+    </div>
+    <button class="btn btn-success mt-3" v-on:click="getUserPosition">
+    📍 Ma position
+    </button>
+
+
+    <div v-if="error" class="alert alert-danger">{{ error }}</div>
+
+    <div v-for="(item, index) in cities" class="weather-card">
+
+        <!-- Titre + bouton supprimer -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4>{{ item.name }}</h4>
+            <button class="btn btn-secondary btn-sm" @click="removeCity(index)">×</button>
+        </div>
+
+        <!-- Carte -->
+        <div :id="'map-' + index" style="height: 200px; border-radius: 8px;"></div>
+
+        <!-- Infos météo -->
+        <div class="mt-3">
+            <div class="d-flex align-items-center">
+                <img :src="item.icon" class="icon-weather me-3">
+                <div>
+                    <h3>{{ item.temp }}°C</h3>
+                    <p class="text-capitalize">{{ item.description }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <p>🌥️ Nuage : <strong>{{ item.clouds }}%</strong></p>
+            <p>💧 Humidité : <strong>{{ item.humidity }}%</strong></p>
+            <p>🌬️ Vent : <strong>{{ item.wind }} km/h</strong></p>
+            <p>🌅 Levé du soleil : <strong>{{ item.sunrise }}</strong></p>
+            <p>🌇 Couché du soleil : <strong>{{ item.sunset }}</strong></p>
+        </div>
+    </div>
 
 </div>
 
-<!-- Lien vers ton fichier JS -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/main.js"></script>
-
 </body>
 </html>
