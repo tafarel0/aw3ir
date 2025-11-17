@@ -1,125 +1,134 @@
+const API_KEY = "98d269956f1d426d2b7e7b487fe3bba0";
 
-// js/main.js
-// Remplacez ces clés par les vôtres
-const OPENWEATHER_API_KEY = 'YOUR_OPENWEATHERMAP_API_KEY'; // <-- mettre votre clé OpenWeatherMap
-const GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY'; // <-- optionnel, pour afficher la carte statique
+const app = Vue.createApp({
+    data() {
+        return {
+            city: "",
+            cities: [],
+            error: ""
+        };
+    },
 
-var app;
-window.onload = function () {
-app = new Vue({
-el: '#weatherApp',
-data: {
-loaded: false,
-formCityName: '',
-message: 'WebApp Loaded.',
-messageForm: '',
-cityList: [ { name: 'Paris' } ],
-cityWeather: null,
-cityWeatherLoading: false,
-},
-mounted: function () {
-this.loaded = true;
-this.readData();
-},
-computed: {
-googleStaticMapUrl: function () {
-if (!this.cityWeather || !this.cityWeather.coord) return '';
-const lat = this.cityWeather.coord.lat;
-const lon = this.cityWeather.coord.lon;
-// Si vous n'avez pas de clé Google Maps, la plupart des navigateurs afficheront une image 'access denied' ou vide
-if (!GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
-// Utiliser OpenStreetMap static tile via mapbox (sans clé) — simple fallback
-return 'https://static-maps.yandex.ru/1.x/?ll=' + lon + ',' + lat + '&size=450,300&z=8&l=map&pt=' + lon + ',' + lat + ',pm2rdm';
-}
-return 'https://maps.googleapis.com/maps/api/staticmap?center=' + lat + ',' + lon + '&markers=' + lat + ',' + lon + '&zoom=8&size=450x300&scale=2&key=' + GOOGLE_MAPS_API_KEY;
-},
-weatherIconClass: function () {
-if (!this.cityWeather || !this.cityWeather.weather) return '';
-// Utilise la classe wi-owm-N où N = id
-const id = this.cityWeather.weather[0].id;
-return 'wi wi-owm-' + (this.isDay() ? 'day-' + id : 'night-' + id);
-}
-},
-methods: {
-readData: function () {
-// Ici on pourrait lire un stockage local si besoin
-console.log('cityList:', JSON.stringify(this.cityList));
-},
-isCityExist: function (_cityName) {
-if (!_cityName) return false;
-return this.cityList.filter(item => item.name.trim().toUpperCase() === _cityName.trim().toUpperCase()).length > 0;
-},
+    mounted() {
+        this.getUserPosition();
+    },
 
+    methods: {
 
-addCity: function (event) {
-event.preventDefault();
-const name = (this.formCityName || '').trim();
-if (!name) {
-this.messageForm = 'Veuillez saisir un nom de ville.';
-return;
-}
-if (this.isCityExist(name)) {
-this.messageForm = 'existe déjà';
-this.formCityName = '';
-return;
-}
-this.cityList.push({ name: name });
-this.messageForm = '';
-this.formCityName = '';
-},
-remove: function (_city) {
-this.cityList = this.cityList.filter(item => item.name !== _city.name);
-// Si la météo affichée correspondait à la ville supprimée, on la vide
-if (this.cityWeather && this.cityWeather.name === _city.name) {
-this.cityWeather = null;
-}
-},
+        async addCity() {
+            this.error = "";
 
+            if (!this.city.trim()) return;
+            const name = this.city.trim();
 
-meteo: function (_city) {
-if (!_city || !_city.name) return;
-this.cityWeatherLoading = true;
-this.message = '';
-const url = 'https://api.openweathermap.org/data/2.5/weather?q=' + encodeURIComponent(_city.name) + '&units=metric&lang=fr&appid=' + OPENWEATHER_API_KEY;
-fetch(url)
-.then(response => response.json())
-.then(json => {
-this.cityWeatherLoading = false;
-if (json.cod === 200) {
-this.cityWeather = json;
-this.message = '';
-} else {
-this.cityWeather = null;
-this.message = 'Météo introuvable pour ' + _city.name + ' (' + (json.message || json.cod) + ')';
+            if (this.cities.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+                this.error = "existe déjà";
+                return;
+            }
+
+            try {
+                const meteo = await this.fetchWeatherByCity(name);
+
+                this.cities.push(meteo);
+
+                // Initialiser la carte après affichage du DOM
+                this.$nextTick(() => {
+                    this.initMap(this.cities.length - 1, meteo.lat, meteo.lon);
+                });
+
+                this.city = "";
+
+            } catch (e) {
+                this.error = "Ville introuvable";
+            }
+        },
+
+        removeCity(index) {
+            this.cities.splice(index, 1);
+        },
+
+        async fetchWeatherByCity(cityName) {
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric&lang=fr`;
+
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Erreur API");
+
+            const data = await response.json();
+            return this.formatWeatherData(data);
+        },
+
+        async fetchWeatherByCoords(lat, lon) {
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=fr`;
+
+            const res = await fetch(url);
+            const data = await res.json();
+            return this.formatWeatherData(data);
+        },
+
+        formatWeatherData(data) {
+            return {
+                name: data.name,
+                temp: Math.round(data.main.temp),
+                description: data.weather[0].description,
+                icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+                clouds: data.clouds.all,
+                humidity: data.main.humidity,
+                wind: data.wind.speed,
+                sunrise: new Date(data.sys.sunrise * 1000).toLocaleTimeString("fr-FR"),
+                sunset: new Date(data.sys.sunset * 1000).toLocaleTimeString("fr-FR"),
+                lat: data.coord.lat,
+                lon: data.coord.lon
+            };
+        },
+
+        initMap(index, lat, lon) {
+            const map = L.map("map-" + index).setView([lat, lon], 12);
+
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
+            L.marker([lat, lon]).addTo(map);
+        },
+
+        // 📌 Géolocalisation de l'utilisateur
+        getUserPosition() {
+    if (!navigator.geolocation) {
+        this.error = "La géolocalisation n'est pas supportée par votre navigateur.";
+        return;
+    }
+
+    this.error = "Récupération de votre position...";
+
+    navigator.geolocation.getCurrentPosition(
+        async pos => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+
+            try {
+                const meteo = await this.fetchWeatherByCoords(lat, lon);
+
+                // empêcher doublon si l'utilisateur est déjà dans la liste
+                if (!this.cities.some(c => c.name === meteo.name)) {
+                    this.cities.push(meteo);
+                }
+
+                this.error = "";
+
+                this.$nextTick(() => {
+                    this.initMap(this.cities.length - 1, meteo.lat, meteo.lon);
+                });
+            } catch (e) {
+                this.error = "Impossible de récupérer la météo de votre position.";
+            }
+        },
+
+        err => {
+            if (err.code === 1) this.error = "Permission refusée 🚫";
+            else this.error = "Impossible de récupérer votre position.";
+        }
+    );
 }
-})
-.catch(err => {
-this.cityWeatherLoading = false;
-this.cityWeather = null;
-this.message = 'Erreur réseau ou API.';
-console.error(err);
+
+    }
 });
-},
-formatTime: function (unixSec) {
-if (!unixSec) return '';
-return new Date(unixSec * 1000).toLocaleTimeString();
-},
 
-
-isDay: function () {
-if (!this.cityWeather) return true;
-const now = Math.floor(Date.now() / 1000);
-return now >= this.cityWeather.sys.sunrise && now < this.cityWeather.sys.sunset;
-},
-addToListFromWeather: function () {
-if (this.cityWeather && this.cityWeather.name) {
-if (!this.isCityExist(this.cityWeather.name)) {
-this.cityList.push({ name: this.cityWeather.name });
-} else {
-this.messageForm = 'La ville est déjà dans la liste.';
-}
-}
-}
-}
-});
-};
+app.mount("#app");

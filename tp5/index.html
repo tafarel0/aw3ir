@@ -1,103 +1,83 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>TP5 - Application Météo</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <link rel="stylesheet" href="css/bootstrap.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'" />
-    <link rel="stylesheet" href="css/weather-icons.min.css" onerror="this.onerror=null;this.href='https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css'" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    
-
+    <meta charset="UTF-8">
+    <title>Application Météo</title>
     <style>
-         body { padding-top: 1rem; }
-        .city-link { cursor: pointer; }
-        .map-img { width: 100%; max-height: 220px; object-fit: cover; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef3f7;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #app {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #weather {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5faff;
+            border-radius: 10px;
+        }
+
+        #weather img {
+            width: 100px;
+        }
+
+        #history {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff8e5;
+            border-radius: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
     </style>
-
-    <!-- Code à dé-commenter si besoin de fichier CSS ou JS -->
-    <!--<link rel="stylesheet" href="style.css">-->
-    <!--<script src="main.js"></script>-->
 </head>
-
 <body>
-    <nav>
-        <a href="..">🏠 Index</a> / TP5
-    </nav>
-    <p>Hello world! This is HTML5 Boilerplate.</p>
-    <img src="../galilee.png" alt="Logo Galilee" />
-    <div id="weatherApp" class="container">
-        <h1 class="mb-4">TP5 — Application Météo</h1>
 
+<div id="app">
+    <h1>🌤️ Météo</h1>
 
-    <!-- Formulaire de saisie -->
-    <form v-on:submit="addCity" class="mb-3">
-        <div class="input-group">
-            <input type="search" class="form-control" v-model="formCityName" placeholder="Ville (ex: Paris)" aria-label="Search city" required autofocus />
-            <button class="btn btn-primary" type="submit">Go!</button>
-        </div>
-        <small class="text-muted">{{ formCityName.length }} car.</small>
-        <div class="alert alert-danger mt-2" role="alert" v-if="messageForm">{{ messageForm }}</div>
-    </form>
+    <!-- Barre de recherche -->
+    <input type="text" id="cityInput" placeholder="Entrez une ville...">
+    <button onclick="searchWeather()">Rechercher</button>
+    <button onclick="getLocation()">📍 Ma position</button>
 
-    <!-- Liste des villes -->
-<h4>Liste des villes ({{ cityList.length }})</h4>
-<ul class="list-group mb-3">
-    <li v-for="city in cityList" :key="city.name" class="list-group-item d-flex justify-content-between align-items-center">
-        <div class="city-link" v-on:click="meteo(city)">{{ city.name }}</div>
-        <div>
-            <button class="btn btn-sm btn-outline-secondary me-2" v-on:click="meteo(city)">Voir</button>
-            <button class="btn btn-sm btn-danger" v-on:click="remove(city)" title="Supprimer">&times;</button>
-        </div>
-    </li>
-</ul>
-<div class="alert alert-primary" v-if="cityList.length==0">Aucune ville de saisie!</div>
-
-<!-- Affichage de la météo -->
-<div v-if="cityWeatherLoading" class="alert alert-info">Chargement de la météo...</div>
-<div v-if="message" class="alert alert-warning">{{ message }}</div>
-
-    <div v-if="cityWeather" class="card mb-4" style="max-width: 720px;">
-    <div class="row g-0">
-        <div class="col-md-5">
-        <!-- Google Static Map (remplacez GOOGLE_MAPS_API_KEY si vous voulez que la carte s'affiche) -->
-        <img class="map-img" :src="googleStaticMapUrl" alt="Carte" />
-        </div>
-        <div class="col-md-7">
-          <div class="card-body">
-            <h5 class="card-title">
-            <i :class="weatherIconClass"></i>
-            {{ cityWeather.name }} — {{ Math.round(cityWeather.main.temp) }}°C
-            <small class="text-muted">(ressenti {{ Math.round(cityWeather.main.feels_like) }}°C)</small>
-            </h5>
-            <p class="card-text text-capitalize">{{ cityWeather.weather[0].description }}</p>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Nuage: {{ cityWeather.clouds.all }}%</li>
-                    <li class="list-group-item">Humidité: {{ cityWeather.main.humidity }}%</li>
-                    <li class="list-group-item">Vent: {{ cityWeather.wind.speed }} m/s</li>
-                    <li class="list-group-item">Levé du soleil: {{ formatTime(cityWeather.sys.sunrise) }}</li>
-                    <li class="list-group-item">Couché du soleil: {{ formatTime(cityWeather.sys.sunset) }}</li>
-                </ul>
-                <div class="mt-3">
-                <button class="btn btn-outline-primary btn-sm" v-on:click="addToListFromWeather()">Ajouter cette ville à la liste</button>
-                </div>
-            </div>
-            </div>
-        </div>
+    <!-- Historique -->
+    <div id="history">
+        <h3 id="historyTitle">Liste des villes (0)</h3>
+        <ul id="historyList"></ul>
     </div>
 
+    <!-- Résultat météo -->
+    <div id="weather"></div>
 
-    <footer class="text-muted small">Remplacez <code>YOUR_OPENWEATHERMAP_API_KEY</code> et (optionnel) <code>YOUR_GOOGLE_MAPS_API_KEY</code> dans <code>js/main.js</code>.</footer>
 </div>
+
+<!-- Lien vers ton fichier JS -->
+<script src="js/main.js"></script>
+
 </body>
-
 </html>
-
-
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<meta name="description" content="">
-
